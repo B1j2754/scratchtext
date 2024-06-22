@@ -1,0 +1,38 @@
+start: function_definition+
+
+function_definition: FUNCTION "(" expression ")" "{" instruction+ "}" 
+    | FUNCTION "()" "{" instruction+ "}"
+instruction: FUNCTION "(" ")" 
+    | FUNCTION "(" expression ")" 
+    | BINFUNC "(" expression "," expression ")" 
+    | TRIFUNC "(" expression "," expression "," expression ")" 
+    | FOREVER "()" "{" instruction+  "}" 
+    | CONTROL "(" expression ")" "{" instruction+ "}" 
+    | assignment
+assignment: VARIABLE "=" expression
+expression: VARIABLE 
+    | ARGUMENT 
+    | expression "+" expression -> add 
+    | expression "-" expression -> sub 
+    | expression "/" expression -> div 
+    | expression "*" expression -> mul 
+    | expression "%" expression -> mod
+
+ARGUMENT: NUMBER | STRING | VARIABLE
+CONTROL: "repeat"
+FOREVER: "forever"
+FUNCTION: CNAME
+VARIABLE: "$" CNAME
+BINFUNC: CNAME
+TRIFUNC: CNAME
+NUMBER: SIGNED_NUMBER
+STRING: ESCAPED_STRING | UNQUOTED_STRING
+UNQUOTED_STRING: /[a-zA-Z0-9]+/
+WHITESPACE: (" " | "\n")+
+COMMENT: "/#" /(.|\n|\r)+/ "#/"
+
+%ignore COMMENT
+%import common.CNAME
+%import common.ESCAPED_STRING
+%import common.SIGNED_NUMBER
+%ignore WHITESPACE
