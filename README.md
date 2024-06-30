@@ -6,7 +6,7 @@ A text-based interface for Scratch programming
 
 This is a work in progress for HGSE's T217 Spring 2020.
 
-↳ Forked to continue development
+↳ Forked to continue development for community -- adding more functionality and block coverage
 
 # Currently implemented blocks:
 
