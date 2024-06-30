@@ -1,16 +1,38 @@
-/#
-Bazinga
+/# Fractal Ex. 1
+First example - ScratchText
+6/30/24
 #/
 
 when_flag_clicked() {
-    goto(0,0)
-    $forb = 1
-    forever(){
-        $forb = $forb + 10 / 10
-        move($forb)
-        turn($forb)
-        think($forb)
-        wait(0.1)
-        say(123)
+    /# Setup #/
+    hide()
+    penClear()
+    penUp()
+    glide(0,-100, 0)
+    penDown()
+    $length = 100
+    $angle = 30
+    $depth = 10
+    
+    /# First iteration #/
+    move($length)
+    turn($angle)
+    move($length * 0.7)
+    turn(-2 * $angle)
+    move($length * 0.7)
+    turn($angle)
+    move(0-$length)
+    $length = $length * 0.7
+
+    /# Main Loop #/
+    repeat($depth) {
+        move($length)
+        turn($angle)
+        move($length * 0.7)
+        turn(-2 * $angle)
+        move($length * 0.7)
+        turn($angle)
+        move(0-$length)
+        $length = $length * 0.7
     }
 }

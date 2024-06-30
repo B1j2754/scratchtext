@@ -1,14 +1,14 @@
 """
 Script for openning an SB3 project using the offline turbowarp editor
 """
-
+from secret_manager import get_key
 import subprocess
 import os
 import time     
 
 def open_sb3_TW(sb3_file_path):
     # Update path according to location of TurboWarp.exe
-    turbowarp_executable_path = os.path.normpath(r"C:\Users\bencl\AppData\Local\Programs\TurboWarp\TurboWarp.exe")
+    turbowarp_executable_path = os.path.normpath(get_key('Program'))
 
     if not os.path.isfile(sb3_file_path):
         raise FileNotFoundError(f"The file {sb3_file_path} does not exist.")

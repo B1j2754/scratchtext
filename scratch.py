@@ -37,7 +37,8 @@ class ScratchProject():
         if isinstance(input, dict):
             return [3,self.add_block(self.current_target, input, block_id),[5,"❤️"]]
         if not input.startswith("$"):
-            if not input.replace('.','').isnumeric():
+            if not input.replace('.','').replace('-','').isnumeric():
+                #print('!!!!!',input)
                 return [1, [6,input[1:-1]]]
             else:
                 return [1, [6,input]]
@@ -55,6 +56,8 @@ class ScratchProject():
             if key in ["x","y","text_value","secs","num1","num2","value","steps","degrees","duration","message","times","string1","string2"]:
                 statement[key + "og"] = statement[key]
                 statement[key] = self.normalize(statement[key], block_id)
+                # if key == 'y':
+                #     print('!!!!!',statement[key])
 
         block = {
             "opcode": opcode,
@@ -124,7 +127,6 @@ class ScratchProject():
                 "X": list(statement["x"]),
                 "Y": list(statement["y"])
             }
-            print(list(statement["x"]))
 
         elif opcode == "motion_turnright":
             block["inputs"] = {
@@ -405,7 +407,7 @@ def parse_tree(t):
             }
 
         # Motion
-        elif func == "edge_bounce":
+        elif func == "edgeBounce":
             return {
                 "opcode": "motion_ifonedgebounce"
             }
@@ -422,25 +424,25 @@ def parse_tree(t):
         elif func == "goto" and instr_type == "BINFUNC":
             return {
                 "opcode": "motion_gotoxy",
-                "x": str(parse_tree(t.children[1])),
-                "y": str(parse_tree(t.children[2]))
+                "x": parse_tree(t.children[1]),
+                "y": parse_tree(t.children[2])
             }
         elif func == "glide" and instr_type == "TRIFUNC":
             return {
                 "opcode": "motion_glidesecstoxy",
-                "secs": str(parse_tree(t.children[1])),
-                "x": str(parse_tree(t.children[2])),
-                "y": str(parse_tree(t.children[3]))
+                "secs": parse_tree(t.children[1]),
+                "x": parse_tree(t.children[2]),
+                "y": parse_tree(t.children[3])
             }
         elif func == "setx":
             return {
                 "opcode": "motion_setx",
-                "x": str(parse_tree(t.children[1]))
+                "x": parse_tree(t.children[1])
             }
         elif func == "sety":
             return {
                 "opcode": "motion_sety",
-                "y": str(parse_tree(t.children[1]))
+                "y": parse_tree(t.children[1])
             }
 
         # Looks

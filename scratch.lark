@@ -18,7 +18,7 @@ expression: VARIABLE
     | expression "*" expression -> mul 
     | expression "%" expression -> mod
 
-ARGUMENT: NUMBER | STRING | VARIABLE
+ARGUMENT: "-" NUMBER | NUMBER | STRING | VARIABLE
 CONTROL: "repeat"
 FOREVER: "forever"
 FUNCTION: CNAME
@@ -28,7 +28,7 @@ TRIFUNC: CNAME
 NUMBER: SIGNED_NUMBER
 STRING: ESCAPED_STRING
 WHITESPACE: (" " | "\n")+
-COMMENT: "/#" /(.|\n|\r)+/ "#/"
+COMMENT: /\/#(.|\n)*?#\//
 
 %ignore COMMENT
 %import common.CNAME

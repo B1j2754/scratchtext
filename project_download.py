@@ -2,6 +2,7 @@
 Script for downloading an existing Scratch project's JSON
 """
 
+from secret_manager import get_key
 import requests
 import json
 
@@ -47,4 +48,4 @@ def download_project(project_id):
             with open('downloaded.json', 'w') as json_file:
                 json.dump(project_json, json_file)
 
-download_project("1032156423")
+download_project(get_key('Project_ID'))
