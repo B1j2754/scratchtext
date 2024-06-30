@@ -37,7 +37,10 @@ class ScratchProject():
         if isinstance(input, dict):
             return [3,self.add_block(self.current_target, input, block_id),[5,"❤️"]]
         if not input.startswith("$"):
-            return [1, [6,input]]
+            if not input.replace('.','').isnumeric():
+                return [1, [6,input[1:-1]]]
+            else:
+                return [1, [6,input]]
         else:
             input = input[1:]
             variable_id = self.variable(input)
@@ -65,6 +68,38 @@ class ScratchProject():
             "y": 0
         }
 
+        input_keys = {
+            "event_whenflagclicked": [],
+            "event_whenthisspriteclicked": [],
+            "motion_ifonedgebounce": [],
+            "motion_movesteps": ["steps"],
+            "motion_turnright": ["degrees"],
+            "motion_gotoxy": ["x", "y"],
+            "motion_glidesecstoxy": ["secs", "x", "y"],
+            "motion_setx": ["x"],
+            "motion_sety": ["y"],
+            "looks_think": ["message"],
+            "looks_say": ["message"],
+            "control_repeat": ["times"],
+            "control_wait": ["duration"],
+            "data_setvariableto": ["value"],
+            "operator_join": ["string1", "string2"],
+            "operator_add": ["num1", "num2"],
+            "looks_show": [],
+            "looks_hide": [],
+            "operator_add": ["num1","num2"],
+            "operator_subtract": ["num1","num2"],
+            "operator_divide": ["num1","num2"],
+            "operator_mod": ["num1","num2"],
+            "operator_multiply": ["num1","num2"],
+            "operator_join": ["string1","string2"]
+        }
+
+        if opcode in input_keys:
+            for key in input_keys[opcode]:
+                # print('!!!!', key.upper(), list(statement[key]))
+                block["inputs"] = {key.upper(): list(statement[key])}
+        
         ## Events
         if opcode == "event_whenflagclicked":
             pass
@@ -89,6 +124,7 @@ class ScratchProject():
                 "X": list(statement["x"]),
                 "Y": list(statement["y"])
             }
+            print(list(statement["x"]))
 
         elif opcode == "motion_turnright":
             block["inputs"] = {

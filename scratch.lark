@@ -12,7 +12,7 @@ instruction: FUNCTION "(" ")"
 assignment: VARIABLE "=" expression
 expression: VARIABLE 
     | ARGUMENT 
-    | expression "+" expression -> add 
+    | expression "+" expression -> add
     | expression "-" expression -> sub 
     | expression "/" expression -> div 
     | expression "*" expression -> mul 
@@ -26,8 +26,7 @@ VARIABLE: "$" CNAME
 BINFUNC: CNAME
 TRIFUNC: CNAME
 NUMBER: SIGNED_NUMBER
-STRING: ESCAPED_STRING | UNQUOTED_STRING
-UNQUOTED_STRING: /[a-zA-Z0-9]+/
+STRING: ESCAPED_STRING
 WHITESPACE: (" " | "\n")+
 COMMENT: "/#" /(.|\n|\r)+/ "#/"
 

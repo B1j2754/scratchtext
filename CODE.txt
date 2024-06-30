@@ -6,10 +6,11 @@ when_flag_clicked() {
     goto(0,0)
     $forb = 1
     forever(){
-        $forb = $forb + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 + 10 / 10
+        $forb = $forb + 10 / 10
         move($forb)
         turn($forb)
         think($forb)
         wait(0.1)
+        say(123)
     }
 }
