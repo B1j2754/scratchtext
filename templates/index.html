@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ScratchText</title>
+        <link rel="stylesheet" href="/static/styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+
+        <script src="/static/codemirror-5.52.2/lib/codemirror.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="/static/codemirror-5.52.2/lib/codemirror.css">
+        <script src="/static/codemirror-5.52.2/mode/javascript/javascript.js"></script>
+
+        <script src="/static/scripts.js"></script>
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2>Motion</h2>
+                <div title="move 10 pixels"><div class="block block-motion" data-value="move(10)">move(10)</div></div>
+                <div title="turn 15 degrees"><div class="block block-motion" data-value="turn(15)">turn(15)</div></div>
+                <div title="go to position x=10, y=20"><div class="block block-motion" data-value="goto(10, 20)">goto(10, 20)</div></div>
+                <div title="glide for 1 second to x=10, y=20"><div class="block block-motion" data-value="glide(1, 10, 20)">glide(1, 10, 20)</div></div>
+                <div title="set x position to 10"><div class="block block-motion" data-value="setX(10)">setX(10)</div></div>
+                <div title="set y position to 10"><div class="block block-motion" data-value="setY(10)">setY(10)</div></div>
+            <h2>Looks</h2>
+                <div title="show thought bubble with &quot;Hmmm...&quot;"><div class="block block-looks" data-value="think(&quot;Hmm...&quot;)">think("Hmm...")</div></div>
+                <div title="show speech bubble with &quot;Hello!&quot;"><div class="block block-looks" data-value="say(&quot;Hello!&quot;)">say("Hello!")</div></div>
+                <div title="show sprite"><div class="block block-looks" data-value="show()">show()</div></div>
+                <div title="hide sprite"><div class="block block-looks" data-value="hide()">hide()</div></div>
+            <h2>Events</h2>
+                <div title="run code when green flag is clicked"><div class="block block-event" data-value="when_flag_clicked() {\n\n}" data-up="yes">when_flag_clicked() {</div></div>
+                <div title="run code when spacebar is pressed"><div class="block block-event" data-value="when_space_pressed() {\n\n}" data-up="yes">when_space_pressed() {</div></div>
+                <div title="run code when sprite is clicked"><div class="block block-event" data-value="when_clicked() {\n\n}" data-up="yes">when_clicked() {</div></div>
+            <h2>Control</h2>
+                <div title="repeat codde indefinitely"><div class="block block-control" data-value="forever() {\n\n}" data-up="yes">forever() {</div></div>
+                <div title="repeat code 10 times"><div class="block block-control" data-value="repeat(10) {\n\n}" data-up="yes">repeat(10) {</div></div>
+                <div title="wait 1 second"><div class="block block-control" data-value="wait(1)">wait(1)</div></div>
+            <h2>Variables</h2>
+                <div title="set foo to 0"><div class="block block-variable" data-value="foo = 0">foo = 0</div></div>
+        </div>
+        <div class="main">
+            <img class="title" src="../static/title.png">
+            <div>
+                <select id="sprite-select">
+                </select>
+                <button id="add">Add Sprite</button>
+                <button id="delete">Delete Sprite</button>
+            </div>
+            <form id="form">
+                <div id="codearea">
+                </div>
+                <input id="file-select" type="file">
+                <div>
+                    <input class="submit" type="submit" value="Download Program">
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
