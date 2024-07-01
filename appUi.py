@@ -9,8 +9,6 @@ import time
 def open_sb3_TW(sb3_file_path):
     # Update path according to location of TurboWarp.exe
     turbowarp_executable_path = os.path.normpath(get_key('Program'))
-    if not os.path.isfile(turbowarp_executable_path):
-        raise FileNotFoundError(f"The editor path {turbowarp_executable_path} does not exist.")
 
     if not os.path.isfile(sb3_file_path):
         raise FileNotFoundError(f"The file {sb3_file_path} does not exist.")
