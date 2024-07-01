@@ -4,10 +4,14 @@
 A text-based interface for Scratch programming
 
 ## About
-
 This is a work in progress for HGSE's T217 Spring 2020.
 
 ↳ Forked to continue development for community -- adding more functionality and block coverage
+
+## Set-up:
+- Set up offline editor path (should be an .exe file, either turbowarp or scratch). This is done by changing the file path specified in `SECRETS.txt` next to `Program=`
+- Edit and make code within `CODE.txt`
+- Run using `run.py`
 
 ## Currently implemented blocks:
 
