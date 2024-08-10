@@ -17,6 +17,7 @@ expression: VARIABLE
     | expression "/" expression -> div 
     | expression "*" expression -> mul 
     | expression "%" expression -> mod
+    | "(" expression ")"
 
 ARGUMENT: "-" NUMBER | NUMBER | STRING | VARIABLE
 CONTROL: "repeat"
