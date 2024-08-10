@@ -1,0 +1,27 @@
+# useName:functionType:opCode:inputName1:inputName2: ...
+
+forever::control_forever:children
+repeat::control_repeat:times:children
+wait::control_wait:duration
+if::control_if:condition
+
+edgeBounce::motion_ifonedgebounce
+move::motion_movesteps:steps
+turn::motion_turnright:degrees
+goto:BINFUNC:motion_gotoxy:x:y
+glide:TRIFUNC:motion_glidesecstoxy:secs:x:y
+setx::motion_setx:x
+sety::motion_sety:y
+
+think::looks_think:message
+say::looks_say:message
+show::looks_show
+hide::looks_hide
+
+join::operator_join
+
+mouse::sensing_mousedown
+
+penUp::pen_penUp
+penDown::pen_penDown
+penClear::pen_clear
