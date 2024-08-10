@@ -38,7 +38,6 @@ class ScratchProject():
             return [3,self.add_block(self.current_target, input, block_id),[5,"❤️"]]
         if not input.startswith("$"):
             if not input.replace('.','').replace('-','').isnumeric():
-                #print('!!!!!',input)
                 return [1, [6,input[1:-1]]]
             else:
                 return [1, [6,input]]
@@ -53,11 +52,9 @@ class ScratchProject():
 
         # body, children, opcode
         for key, value in copy.deepcopy(statement).items():
-            if key in ["x","y","text_value","secs","num1","num2","value","steps","degrees","duration","message","times","string1","string2"]:
+            if key in ["x","y","text_value","secs","num1","num2","value","steps","degrees","duration","message","times","string1","string2","condition"]:
                 statement[key + "og"] = statement[key]
                 statement[key] = self.normalize(statement[key], block_id)
-                # if key == 'y':
-                #     print('!!!!!',statement[key])
 
         block = {
             "opcode": opcode,
@@ -72,8 +69,10 @@ class ScratchProject():
         }
 
         input_keys = {
+            # Events
             "event_whenflagclicked": [],
             "event_whenthisspriteclicked": [],
+            # Motion
             "motion_ifonedgebounce": [],
             "motion_movesteps": ["steps"],
             "motion_turnright": ["degrees"],
@@ -81,99 +80,41 @@ class ScratchProject():
             "motion_glidesecstoxy": ["secs", "x", "y"],
             "motion_setx": ["x"],
             "motion_sety": ["y"],
+            # Looks
             "looks_think": ["message"],
             "looks_say": ["message"],
-            "control_repeat": ["times"],
-            "control_wait": ["duration"],
-            "data_setvariableto": ["value"],
-            "operator_join": ["string1", "string2"],
-            "operator_add": ["num1", "num2"],
             "looks_show": [],
             "looks_hide": [],
+            # Control
+            "control_if": ["condition"],
+            "control_repeat": ["times"],
+            "control_wait": ["duration"],
+            "control_forever": [],
+            # Variables
+            "data_setvariableto": ["value"],
+            # Operators
+            "operator_join": ["string1", "string2"],
+            "operator_add": ["num1", "num2"],
             "operator_add": ["num1","num2"],
             "operator_subtract": ["num1","num2"],
             "operator_divide": ["num1","num2"],
             "operator_mod": ["num1","num2"],
             "operator_multiply": ["num1","num2"],
-            "operator_join": ["string1","string2"]
+            "operator_join": ["string1","string2"],
+            # Sensing
+            "sensing_mousedown": []
         }
 
         if opcode in input_keys:
+            block["inputs"] = {}
             for key in input_keys[opcode]:
-                # print('!!!!', key.upper(), list(statement[key]))
-                block["inputs"] = {key.upper(): list(statement[key])}
+                block["inputs"][key.upper()] = list(statement[key])
         
-        ## Events
-        if opcode == "event_whenflagclicked":
-            pass
-
-        elif opcode == "event_whenthisspriteclicked":
-            pass
-
-        elif opcode == "event_whenkeypressed":
+        # Managment for blocks containing field properties
+        if opcode == "event_whenkeypressed":
             block["fields"] = statement["data"]["fields"]
 
-        ## Motion
-        elif opcode == "motion_ifonedgebounce":
-            pass
-
-        elif opcode == "motion_movesteps":
-            block["inputs"] = {
-                "STEPS": list(statement["steps"])
-            }
-
-        elif opcode == "motion_gotoxy":
-            block["inputs"] = {
-                "X": list(statement["x"]),
-                "Y": list(statement["y"])
-            }
-
-        elif opcode == "motion_turnright":
-            block["inputs"] = {
-                "DEGREES": list(statement["degrees"])
-            }
-
-        elif opcode == "motion_glidesecstoxy":
-            block["inputs"] = {
-                "SECS": list(statement["secs"]),
-                "X": list(statement["x"]),
-                "Y": list(statement["y"])
-            }
-        elif opcode == "motion_setx":
-            block["inputs"] = {
-                "X": list(statement["x"])
-            }
-        elif opcode == "motion_sety":
-            block["inputs"] = {
-                "Y": list(statement["y"])
-            }
-
-        ## Looks
-        elif opcode == "looks_think":
-            block["inputs"] = {
-                "MESSAGE": list(statement["message"])
-            }
-        elif opcode == "looks_say":
-            block["inputs"] = {
-                "MESSAGE": list(statement["message"])
-            }
-        elif opcode == "looks_show":
-            pass
-        elif opcode == "looks_hide":
-            pass
-
-        # Control
-        elif opcode == "control_repeat":
-            block["inputs"] = {
-                "TIMES": list(statement["times"])
-            }
-        
-        elif opcode == "control_wait":
-            block["inputs"] = {
-                "DURATION": list(statement["duration"])
-            }
-
-        # Variables
+        # Variable-related block managment
         elif opcode == "data_setvariableto":
             variable = statement["variable"][1:]
             value = statement["value"]
@@ -184,53 +125,6 @@ class ScratchProject():
             block["fields"] = {
                 "VARIABLE": [variable, variable_id]
             }
-
-        # Operators
-        elif opcode == "operator_join":
-            block["inputs"] = {
-                "STRING1" : list(statement["string1"]),
-                "STRING2" : list(statement["string2"])
-            }
-
-        elif opcode == "operator_add":
-            block["inputs"] = {
-                "NUM1": list(statement["num1"]),
-                "NUM2": list(statement["num2"])
-            }
-        
-        elif opcode == "operator_subtract":
-            block["inputs"] = {
-                "NUM1": list(statement["num1"]),
-                "NUM2": list(statement["num2"])
-            }
-        
-        elif opcode == "operator_multiply":
-            block["inputs"] = {
-                "NUM1": list(statement["num1"]),
-                "NUM2": list(statement["num2"])
-            }
-        
-        elif opcode == "operator_divide":
-            block["inputs"] = {
-                "NUM1": list(statement["num1"]),
-                "NUM2": list(statement["num2"])
-            }
-
-        elif opcode == "operator_mod":
-            block["inputs"] = {
-                "NUM1": list(statement["num1"]),
-                "NUM2": list(statement["num2"])
-            }
-
-        # Pen Blocks
-        elif opcode == "pen_penUp":
-            pass
-        
-        elif opcode == "pen_penDown":
-            pass
-        
-        elif opcode == "pen_clear":
-            pass
         
         return block
 
@@ -324,7 +218,13 @@ def parse_tree(t):
 
     if t.data == "expression":
         if len(t.children) == 1:
-            return t.children[0].value
+            if isinstance(t.children[0],Tree):
+                while isinstance(t.children[0],Tree):
+                    t.children[0] = parse_tree(t.children[0])
+                print(t.children[0])
+            else:
+                print("!!!!!!!",t.children[0])
+                return t.children[0].value
     
     operator_map = {
                 "add": "operator_add",
@@ -388,103 +288,25 @@ def parse_tree(t):
         instr_type = t.children[0].type
         func = str(t.children[0])
 
-        # Control
-        if func == "forever":
-            return {
-                "opcode": "control_forever",
-                "children": [parse_tree(child) for child in t.children[1:]]
-            }
-        elif func == "repeat":
-            return {
-                "opcode": "control_repeat",
-                "times": parse_tree(t.children[1]),
-                "children": [parse_tree(child) for child in t.children[2:]]
-            }
-        elif func == "wait":
-            return {
-                "opcode": "control_wait",
-                "duration": parse_tree(t.children[1])
-            }
-
-        # Motion
-        elif func == "edgeBounce":
-            return {
-                "opcode": "motion_ifonedgebounce"
-            }
-        elif func == "move":
-            return {
-                "opcode": "motion_movesteps",
-                "steps": parse_tree(t.children[1])
-            }
-        elif func == "turn":
-            return {
-                "opcode": "motion_turnright",
-                "degrees": parse_tree(t.children[1])
-            }
-        elif func == "goto" and instr_type == "BINFUNC":
-            return {
-                "opcode": "motion_gotoxy",
-                "x": parse_tree(t.children[1]),
-                "y": parse_tree(t.children[2])
-            }
-        elif func == "glide" and instr_type == "TRIFUNC":
-            return {
-                "opcode": "motion_glidesecstoxy",
-                "secs": parse_tree(t.children[1]),
-                "x": parse_tree(t.children[2]),
-                "y": parse_tree(t.children[3])
-            }
-        elif func == "setx":
-            return {
-                "opcode": "motion_setx",
-                "x": parse_tree(t.children[1])
-            }
-        elif func == "sety":
-            return {
-                "opcode": "motion_sety",
-                "y": parse_tree(t.children[1])
-            }
-
-        # Looks
-        elif func == "think":
-            return {
-                "opcode": "looks_think",
-                "message": parse_tree(t.children[1])
-            }
-        elif func == "say":
-            return {
-                "opcode": "looks_say",
-                "message": parse_tree(t.children[1])
-            }
-        elif func == "show":
-            return {
-                "opcode": "looks_show"
-            }
-        elif func == "hide":
-            return {
-                "opcode": "looks_hide"
-            }
-
-        elif func == "join":
-            return {
-                "opcode": "operator_join",
-                "string1": str(parse_tree(t.children[1])),
-                "string2": str(parse_tree(t.children[2]))
-            }
-
-        elif func == "penUp":
-            return {
-                "opcode": "pen_penUp"
-            }
-
-        elif func == "penDown":
-            return {
-                "opcode": "pen_penDown"
-            }
-
-        elif func == "penClear":
-            return {
-                "opcode": "pen_clear"
-            }
+        with open('COMMANDS.txt','r') as file:
+            for line in file:
+                line = line.replace("\n",'')
+                # Check if line starts with the right function, 
+                # and if it exists, make sure it is the correct type
+                if line.startswith(func) and (line.split(':')[1] == '' or line.split(':')[1] == instr_type):
+                    output = {}
+                    # Set opcode to the corresponding code from the file
+                    output["opcode"] = line.split(':')[2]
+                    # Iterate through inputs listed
+                    for index, input in enumerate(line.split(':')[3:]):
+                        # If children is a parameter, calculate starting point for reading children
+                        if input == 'children':
+                            output["children"] = [parse_tree(child) for child in t.children[1+(len(line.split(':'))-4):]]
+                        # Otherwise, process it using its order listed
+                        else:
+                            #print(input,t.children[1+index])
+                            output[input] = parse_tree(t.children[1+index])
+                    print(output)
+                    return output
         
     return t
