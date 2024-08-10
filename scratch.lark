@@ -1,13 +1,13 @@
 start: function_definition+
 
-function_definition: FUNCTION "(" expression ")" "{" instruction+ "}" 
-    | FUNCTION "()" "{" instruction+ "}"
+function_definition: FUNCTION "(" expression? ")" "{" instruction+ "}"
 instruction: FUNCTION "(" ")" 
     | FUNCTION "(" expression ")" 
     | BINFUNC "(" expression "," expression ")" 
     | TRIFUNC "(" expression "," expression "," expression ")" 
     | FOREVER "()" "{" instruction+  "}" 
     | CONTROL "(" expression ")" "{" instruction+ "}" 
+    | IF "(" expression ")" "{" instruction+ "}"
     | assignment
 assignment: VARIABLE "=" expression
 expression: VARIABLE 
@@ -17,11 +17,12 @@ expression: VARIABLE
     | expression "/" expression -> div 
     | expression "*" expression -> mul 
     | expression "%" expression -> mod
-    | "(" expression ")"
+    | instruction
 
 ARGUMENT: "-" NUMBER | NUMBER | STRING | VARIABLE
 CONTROL: "repeat"
 FOREVER: "forever"
+IF: "if"
 FUNCTION: CNAME
 VARIABLE: "$" CNAME
 BINFUNC: CNAME
