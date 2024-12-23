@@ -1,3 +1,6 @@
+# Check out v.2!
+![v.2.ScratchText](https://github.com/B1j2754/v2.ScratchText)
+
 # ScratchText
 ![ScratchText](static/title.png)
 
